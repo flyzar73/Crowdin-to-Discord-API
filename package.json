@@ -1,0 +1,12 @@
+{
+  "name": "crowdin-to-discord-api",
+  "version": "1.0.0",
+  "description": "Create a API to get translation prepared for Discord",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
