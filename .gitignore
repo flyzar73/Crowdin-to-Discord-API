@@ -163,3 +163,4 @@ dist
 # End of https://www.toptal.com/developers/gitignore/api/node,visualstudiocode
 
 package-lock.json
+config.json
