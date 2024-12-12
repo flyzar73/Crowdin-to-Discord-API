@@ -1,0 +1,1 @@
+{ "commands": { "test": "/test", "other": { "one": "1", "two": "2" } } }
