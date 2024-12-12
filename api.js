@@ -5,7 +5,11 @@ let app = express();
 config.api.ip = config.api.ip == '' ? 'localhost' : config.api.ip;
 
 app.get('/', function (req, res) {
-	res.send('Visit /user/0 or /users/0-2');
+	res.send('Hello');
+});
+
+app.get('/get', function (req, res) {
+	res.send(require('./src/build/local.json'));
 });
 
 app.get('/get/:category', function (req, res) {
