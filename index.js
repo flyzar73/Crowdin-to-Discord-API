@@ -10,27 +10,35 @@ const { projectsGroupsApi, uploadStorageApi, sourceFilesApi, translationsApi } =
 const projectId = config.crowdin['app-id'];
 const fileId = config.crowdin['file-id'];
 
-async function downloadTranslations(language) {
-	const downloadLink = await translationsApi.buildProjectFileTranslation(projectId, fileId, {
-		targetLanguageId: language,
+function downloadTranslations() {
+	config.localization['list-local'].forEach(async (language) => {
+		const downloadLink = await translationsApi.buildProjectFileTranslation(projectId, fileId, {
+			targetLanguageId: language,
+		});
+		const response = await fetch(downloadLink.data.url);
+		const translations = await response.json();
+		fs.writeFileSync(`./src/locals/local_${language}.json`, JSON.stringify(translations));
 	});
-	const response = await fetch(downloadLink.data.url);
-	const translations = await response.json();
-	fs.writeFileSync(`./src/locals/local_${language}.json`, JSON.stringify(translations));
 }
 
 function getAllLocals() {
 	let local = [];
 	config.localization['list-local'].forEach((language) => {
 		local[language] = JSON.parse(fs.readFileSync(`./src/locals/local_${language}.json`)); //translation
-		local.default = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
+		if (config.local['use-default-local']) {
+			local.default = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
+		}
 	});
 
 	return local;
 }
 
 function allLocalToBuild(locals) {
-	model = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
+	if (config.local['use-default-local']) {
+		model = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
+	} else {
+		model = JSON.parse(fs.readFileSync(`./src/build/local_${config.localization['list-local'][0]}.json`));
+	}
 	let endLocal = {};
 	for (const Category in model) {
 		const CategoryChild = model[Category];
@@ -69,11 +77,23 @@ function allLocalToBuild(locals) {
 }
 
 function start() {
-	config.localization['list-local'].forEach((language) => {
-		downloadTranslations(language);
-	});
+	if (!fs.existsSync('./src/')) {
+		fs.mkdirSync('./src/');
+	}
+	if (!fs.existsSync('./src/build')) {
+		fs.mkdirSync('./src/build');
+	}
+	if (!fs.existsSync('./src/locals')) {
+		fs.mkdirSync('./src/locals');
+	}
 
-	allLocalToBuild(getAllLocals());
+	if (!fs.existsSync('./src/local.json') && config.local['use-default-local']) return console.error('ERR | There no default local, read doc');
+
+	downloadTranslations();
+
+	setTimeout(() => {
+		allLocalToBuild(getAllLocals());
+	}, 5000);
 
 	require('./api.js');
 }

@@ -1,0 +1,1 @@
+{"first-lauch":false,"crowdin":{"token":"9ef3817575433bfcc13bbd8fedff0380642fdeade00fbfe17f10fde09a2cf34b4e8b2296405bcad5","app-id":"692655","file-id":"88"},"localization":{"list-local":["fr","nl"]},"local":{"backup-all-localization":true},"api":{"ip":"","port":10004}}
