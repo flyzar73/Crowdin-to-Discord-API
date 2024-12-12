@@ -11,7 +11,7 @@ const projectId = config.crowdin['app-id'];
 const fileId = config.crowdin['file-id'];
 
 function downloadTranslations() {
-	config.localization['list-local'].forEach(async (language) => {
+	config.localization['list-locale'].forEach(async (language) => {
 		const downloadLink = await translationsApi.buildProjectFileTranslation(projectId, fileId, {
 			targetLanguageId: language,
 		});
@@ -23,10 +23,10 @@ function downloadTranslations() {
 
 function getAllLocals() {
 	let local = [];
-	config.localization['list-local'].forEach((language) => {
+	config.localization['list-locale'].forEach((language) => {
 		local[language] = JSON.parse(fs.readFileSync(`./src/locales/locale_${language}.json`)); //translation
 		if (config.local['use-default-local']) {
-			local.default = JSON.parse(fs.readFileSync(`./src/locale.json`)); //default (English)
+			local[config.localization['default-locale']] = JSON.parse(fs.readFileSync(`./src/locale.json`)); //default (English)
 		}
 	});
 
