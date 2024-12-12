@@ -165,6 +165,5 @@ dist
 package-lock.json
 config.json
 
-src/locales/*.json
-src/build/*.json
-src/locale.json
+src/*/*.*
+src/*
