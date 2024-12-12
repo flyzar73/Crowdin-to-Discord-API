@@ -164,3 +164,7 @@ dist
 
 package-lock.json
 config.json
+
+src/locals/*.json
+src/build/*.json
+src/local.json
