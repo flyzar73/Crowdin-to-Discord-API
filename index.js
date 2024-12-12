@@ -33,7 +33,8 @@ function getAllLocals() {
 	return local;
 }
 
-function allLocalToBuild(locals) {
+function allLocalToBuild(locales) {
+	let model = {};
 	if (config.local['use-default-local']) {
 		model = JSON.parse(fs.readFileSync(`./src/locale.json`)); //default (English)
 	} else {
@@ -44,109 +45,99 @@ function allLocalToBuild(locals) {
 		const C1C = model[C1];
 		endLocal[C1] = {};
 		if (typeof C1C == 'object') {
-			for (const C2 in model) {
-				const C2C = model[C1];
-				endLocal[C2] = {};
+			for (const C2 in C1C) {
+				const C2C = C1C[C2];
+				endLocal[C1][C2] = {};
 				if (typeof C2C == 'object') {
-					for (const C3 in model) {
-						const C3C = model[C1];
-						endLocal[C3] = {};
+					for (const C3 in C2C) {
+						const C3C = C2C[C3];
+						endLocal[C1][C2][C3] = {};
 						if (typeof C3C == 'object') {
-							for (const C4 in model) {
-								const C4C = model[C1];
-								endLocal[C4] = {};
+							for (const C4 in C3C) {
+								const C4C = C3C[C4];
+								endLocal[C1][C2][C3][C4] = {};
 								if (typeof C4C == 'object') {
-									for (const C5 in model) {
-										const C5C = model[C1];
-										endLocal[C5] = {};
+									for (const C5 in C4C) {
+										const C5C = C4C[C5];
+										endLocal[C1][C2][C3][C4][C5] = {};
 										if (typeof C5C == 'object') {
-											for (const C5 in model) {
-												const C5C = model[C1];
-												endLocal[C5] = {};
-												if (typeof C5C == 'object') {
-													for (const C6 in model) {
-														const C6C = model[C1];
-														endLocal[C6] = {};
-														if (typeof C6C == 'object') {
-															for (const C7 in model) {
-																const C7C = model[C1];
-																endLocal[C7] = {};
-																if (typeof C7C == 'object') {
-																	for (const C8 in model) {
-																		const C8C = model[C1];
-																		endLocal[C8] = {};
-																		if (typeof C8C == 'object') {
-																			for (const C9 in model) {
-																				const C9C = model[C1];
-																				endLocal[C9] = {};
-																				if (typeof C9C == 'object') {
-																					for (const C10 in model) {
-																						const C10C = model[C1];
-																						endLocal[C10] = {};
-																						if (typeof C10C == 'object') {
-																						} else {
-																							for (const local in locals) {
-																								endLocal[C10][local] = locals[local][C10] ?? null;
-																							}
-																						}
-																					}
+											for (const C6 in C5C) {
+												const C6C = C5C[C6];
+												endLocal[C1][C2][C3][C4][C5][C6] = {};
+												if (typeof C6C == 'object') {
+													for (const C7 in C6C) {
+														const C7C = C6C[C7];
+														endLocal[C1][C2][C3][C4][C5][C6][C7] = {};
+														if (typeof C7C == 'object') {
+															for (const C8 in C7C) {
+																const C8C = C7C[C8];
+																endLocal[C1][C2][C3][C4][C5][C6][C7][C8] = {};
+																if (typeof C8C == 'object') {
+																	for (const C9 in C8C) {
+																		const C9C = C8C[C9];
+																		endLocal[C1][C2][C3][C4][C5][C6][C7][C8][C9] = {};
+																		if (typeof C9C == 'object') {
+																			for (const C10 in C9C) {
+																				const C10C = C9C[C10];
+																				endLocal[C1][C2][C3][C4][C5][C6][C7][C8][C9][C10] = {};
+																				if (typeof C10C == 'object') {
 																				} else {
-																					for (const local in locals) {
-																						endLocal[C9][local] = locals[local][C9] ?? null;
+																					for (const local in locales) {
+																						endLocal[C1][C2][C3][C4][C5][C6][C7][C8][C9][C10][local] = locales[local][C1][C2][C3][C4][C5][C6][C7][C8][C9][C10] ?? null;
 																					}
 																				}
 																			}
 																		} else {
-																			for (const local in locals) {
-																				endLocal[C8][local] = locals[local][C8] ?? null;
+																			for (const local in locales) {
+																				endLocal[C1][C2][C3][C4][C5][C6][C7][C8][C9][local] = locales[local][C1][C2][C3][C4][C5][C6][C7][C8][C9] ?? null;
 																			}
 																		}
 																	}
 																} else {
-																	for (const local in locals) {
-																		endLocal[C7][local] = locals[local][C7] ?? null;
+																	for (const local in locales) {
+																		endLocal[C1][C2][C3][C4][C5][C6][C7][C8][local] = locales[local][C1][C2][C3][C4][C5][C6][C7][C8] ?? null;
 																	}
 																}
 															}
 														} else {
-															for (const local in locals) {
-																endLocal[C6][local] = locals[local][C6] ?? null;
+															for (const local in locales) {
+																endLocal[C1][C2][C3][C4][C5][C6][C7][local] = locales[local][C1][C2][C3][C4][C5][C6][C7] ?? null;
 															}
 														}
 													}
 												} else {
-													for (const local in locals) {
-														endLocal[C5][local] = locals[local][C5] ?? null;
+													for (const local in locales) {
+														endLocal[C1][C2][C3][C4][C5][C6][local] = locales[local][C1][C2][C3][C4][C5][C6] ?? null;
 													}
 												}
 											}
 										} else {
-											for (const local in locals) {
-												endLocal[C5][local] = locals[local][C5] ?? null;
+											for (const local in locales) {
+												endLocal[C1][C2][C3][C4][C5][local] = locales[local][C1][C2][C3][C4][C5] ?? null;
 											}
 										}
 									}
 								} else {
-									for (const local in locals) {
-										endLocal[C4][local] = locals[local][C4] ?? null;
+									for (const local in locales) {
+										endLocal[C1][C2][C3][C4][local] = locales[local][C1][C2][C3][C4] ?? null;
 									}
 								}
 							}
 						} else {
-							for (const local in locals) {
-								endLocal[C3][local] = locals[local][C3] ?? null;
+							for (const local in locales) {
+								endLocal[C1][C2][C3][local] = locales[local][C1][C2][C3] ?? null;
 							}
 						}
 					}
 				} else {
-					for (const local in locals) {
-						endLocal[C2][local] = locals[local][C2] ?? null;
+					for (const local in locales) {
+						endLocal[C1][C2][local] = locales[local][C1][C2] ?? null;
 					}
 				}
 			}
 		} else {
-			for (const local in locals) {
-				endLocal[C1][local] = locals[local][C1] ?? null;
+			for (const local in locales) {
+				endLocal[C1][local] = locales[local][C1] ?? null;
 			}
 		}
 	}
