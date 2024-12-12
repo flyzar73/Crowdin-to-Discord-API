@@ -17,16 +17,16 @@ function downloadTranslations() {
 		});
 		const response = await fetch(downloadLink.data.url);
 		const translations = await response.json();
-		fs.writeFileSync(`./src/locals/local_${language}.json`, JSON.stringify(translations));
+		fs.writeFileSync(`./src/locales/locale_${language}.json`, JSON.stringify(translations));
 	});
 }
 
 function getAllLocals() {
 	let local = [];
 	config.localization['list-local'].forEach((language) => {
-		local[language] = JSON.parse(fs.readFileSync(`./src/locals/local_${language}.json`)); //translation
+		local[language] = JSON.parse(fs.readFileSync(`./src/locales/locale_${language}.json`)); //translation
 		if (config.local['use-default-local']) {
-			local.default = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
+			local.default = JSON.parse(fs.readFileSync(`./src/locale.json`)); //default (English)
 		}
 	});
 
@@ -35,9 +35,9 @@ function getAllLocals() {
 
 function allLocalToBuild(locals) {
 	if (config.local['use-default-local']) {
-		model = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
+		model = JSON.parse(fs.readFileSync(`./src/locale.json`)); //default (English)
 	} else {
-		model = JSON.parse(fs.readFileSync(`./src/build/local_${config.localization['list-local'][0]}.json`));
+		model = JSON.parse(fs.readFileSync(`./src/build/locale_${config.localization['list-local'][0]}.json`));
 	}
 	let endLocal = {};
 	for (const Category in model) {
@@ -73,7 +73,7 @@ function allLocalToBuild(locals) {
 			}
 		}
 	}
-	fs.writeFileSync(`./src/build/local.json`, JSON.stringify(endLocal));
+	fs.writeFileSync(`./src/build/locale.json`, JSON.stringify(endLocal));
 }
 
 function start() {
@@ -83,11 +83,11 @@ function start() {
 	if (!fs.existsSync('./src/build')) {
 		fs.mkdirSync('./src/build');
 	}
-	if (!fs.existsSync('./src/locals')) {
-		fs.mkdirSync('./src/locals');
+	if (!fs.existsSync('./src/locales')) {
+		fs.mkdirSync('./src/locales');
 	}
 
-	if (!fs.existsSync('./src/local.json') && config.local['use-default-local']) return console.error('ERR | There no default local, read doc');
+	if (!fs.existsSync('./src/locale.json') && config.local['use-default-local']) return console.error('ERR | There no default local, read doc');
 
 	downloadTranslations();
 
