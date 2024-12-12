@@ -32,20 +32,29 @@ function getAllLocals() {
 function allLocalToBuild(locals) {
 	model = JSON.parse(fs.readFileSync(`./src/local.json`)); //default (English)
 	let endLocal = {};
-	console.log(model);
 	for (const Category in model) {
 		const CategoryChild = model[Category];
 		endLocal[Category] = {};
-		console.log(Category);
 		for (const SubCategory in CategoryChild) {
 			const SubCategoryChild = CategoryChild[SubCategory];
-			console.log(SubCategory);
 			if (typeof SubCategoryChild == 'object') {
 				endLocal[Category][SubCategory] = {};
 				for (const UnderCategory in SubCategoryChild) {
-					endLocal[Category][SubCategory][UnderCategory] = {};
-					for (const local in locals) {
-						endLocal[Category][SubCategory][UnderCategory][local] = locals[local][Category][SubCategory][UnderCategory] ?? null;
+					const UnderCategoryChild = UnderCategory[UnderCategory];
+
+					if (typeof UnderCategoryChild == 'object') {
+						endLocal[Category][SubCategory] = {};
+						for (const EndCategory in UnderCategoryChild) {
+							endLocal[Category][SubCategory][UnderCategory][EndCategory] = {};
+							for (const local in locals) {
+								endLocal[Category][SubCategory][UnderCategory][EndCategory][local] = locals[local][Category][SubCategory][EndCategory][UnderCategory] ?? null;
+							}
+						}
+					} else {
+						endLocal[Category][SubCategory][UnderCategory] = {};
+						for (const local in locals) {
+							endLocal[Category][SubCategory][UnderCategory][local] = locals[local][Category][SubCategory][UnderCategory] ?? null;
+						}
 					}
 				}
 			} else {
@@ -65,6 +74,8 @@ function start() {
 	});
 
 	allLocalToBuild(getAllLocals());
+
+	require('./api.js');
 }
 
 start();
