@@ -29,4 +29,4 @@ app.get('/get/:category/:subCategory/:underCategory/:endCategory', function (req
 });
 
 app.listen(config.api.port);
-console.log(`Server start on: http://${config.api.ip}:${config.api.port}`);
+console.log(`Server started on: http://${config.api.ip}:${config.api.port}`);
