@@ -164,6 +164,7 @@ function start() {
 	}, 5000);
 
 	require('./api.js');
+	console.log('ready');
 }
 
 start();
