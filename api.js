@@ -8,6 +8,10 @@ app.get('/', function (req, res) {
 	res.send('Hello');
 });
 
+app.get('/info.json', function (req, res) {
+	res.send({ status: 'online', version: require('./package.json').version });
+});
+
 app.get('/get', function (req, res) {
 	res.send(require('./src/build/locale.json'));
 });
