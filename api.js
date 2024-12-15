@@ -9,7 +9,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/info.json', function (req, res) {
-	res.send({ status: 'online', version: require('./package.json').version });
+	res.send({ status: '🟢 Online', version: require('./package.json').version });
 });
 
 app.get('/get', function (req, res) {
